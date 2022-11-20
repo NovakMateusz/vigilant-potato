@@ -30,7 +30,7 @@
 >>> exit()
 ```
 
-### Run custom Spider and save results to the JSON file
+### Run custom Spider and saving results to the JSON file
 ```console
 % cd job_scrapper
 % scrapy crawl protocol -O output.json
