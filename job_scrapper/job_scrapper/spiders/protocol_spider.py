@@ -44,4 +44,4 @@ class TheProtocolSpider(scrapy.Spider):
         total_postings_number = int(self._regex_pattern.search(total_postings_number_raw).group())
         total_pages_number = math.ceil(total_postings_number / self.POSTING_PER_PAGE)
 
-        self._range_generator = (page_number for page_number in range(2, total_pages_number))
+        self._range_generator = (page_number for page_number in range(2, total_pages_number + 1))
