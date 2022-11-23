@@ -35,3 +35,9 @@
 % cd job_scrapper
 % scrapy crawl protocol -O output.json
 ```
+### Installing dependencies and creating chart's 
+```console
+% cd chart
+% yarn 
+% yarn dev 
+```
