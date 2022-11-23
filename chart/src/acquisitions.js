@@ -1,33 +1,60 @@
 
 import { Chart } from 'chart.js/auto'
-import newData from '../../job_scrapper/output.json'
+import { getJobsByCompany } from './query.js'
 
 (async function() {
 
-  let data = []
-
-  newData.forEach(job => {
-    if (data.find(x => x?.company === job?.company)) {
-      let position = data.findIndex(x => x?.company === job?.company) 
-      data[position].numberOfOffers++
-    } else {
-      data.push({company: job.company, numberOfOffers: 1})
-    }
-  })
-
-  data.sort((a, b) => b.numberOfOffers - a.numberOfOffers)
-  const slicedData = data.slice(0, 20)
-
+  // First Query for Number of Jobs posted by each company
+  const numberOfJobs = getJobsByCompany()
   new Chart(
     document.getElementById('acquisitions'),
     {
       type: 'bar',
+      options: {
+        animation: true,
+        plugins: {
+          legend: {
+            display: true
+          },
+          tooltip: {
+            enabled: true
+          }
+        }
+      },
       data: {
-        labels: slicedData.map(row => row.company),
+        labels: numberOfJobs.map(row => row.company),
         datasets: [
           {
             label: 'Number of Jobs',
-            data: slicedData.map(row => row.numberOfOffers)
+            data: numberOfJobs.map(row => row.numberOfOffers)
+          }
+        ]
+      }
+    }
+  );
+
+  // Second Query
+  new Chart(
+    document.getElementById('acquisitions2'),
+    {
+      type: 'bar',
+      options: {
+        animation: true,
+        plugins: {
+          legend: {
+            display: true
+          },
+          tooltip: {
+            enabled: true
+          }
+        }
+      },
+      data: {
+        labels: numberOfJobs.map(row => row.company),
+        datasets: [
+          {
+            label: 'Number of Jobs',
+            data: numberOfJobs.map(row => row.numberOfOffers)
           }
         ]
       }
