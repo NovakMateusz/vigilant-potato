@@ -1,5 +1,6 @@
 import newData from '../../job_scrapper/output.json'
 
+// First Chart
 export const getJobsByCompany = () => {
   try {
     let data = []
@@ -22,4 +23,5 @@ export const getJobsByCompany = () => {
   }
 }
 
+// Second Chart
 export const getJobsFromByCity = () => {}
