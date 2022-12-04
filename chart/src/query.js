@@ -1,4 +1,4 @@
-import newData from '../../job_scrapper/output.json'
+import newData from '../../job_scrapper/output.pandas'
 
 // First Chart
 export const getJobsByCompany = () => {
