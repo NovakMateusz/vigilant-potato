@@ -1,27 +1,34 @@
 from os.path import exists
-
 import pandas as pd
-import json
 import os
-from pandas.io.common import file_exists
 
-# to dataframe
+# json to dataframe
 nfile = pd.read_json('job_scrapper/output.json')
 if exists('results/results.json'):
     ofile = pd.read_json('results/results.json')
-    temp_dframe = pd.DataFrame(ofile)
-    dframe = temp_dframe.append(nfile, ignore_index=True)
+    dframe = pd.DataFrame(ofile)
+    dframe = dframe.append(nfile, ignore_index=True)
+    print(dframe)
+
+    # drop duplicates
+    dframe = dframe.drop_duplicates(subset=['company', 'job_title', 'location'], keep='last', ignore_index=True)
     print(dframe)
 else:
     dframe = pd.DataFrame(nfile)
     print(dframe)
 
-# duplicates
-
-
 # dataframe to json
+dframe.to_json('results/results.json', force_ascii=False, orient='records')
+
+# looks
+with open('results/results.json', 'r', encoding='utf-8') as r:
+    data = r.read()
+    data = data.replace(']},', ']},\n')
+    data = data.replace(']}]', ']}\n]')
+    data = data.replace('[{"comp', '[\n{"comp')
+    data = data.replace('\\/', '/')
 with open('results/results.json', 'w', encoding='utf-8') as r:
-    dframe.to_json(r, orient="records", force_ascii=False)
+    r.write(data)
 
 # erase output.json
-# os.remove ('job_scrapper/output.json')
+os.remove('job_scrapper/output.json')
